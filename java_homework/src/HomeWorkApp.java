@@ -1,6 +1,5 @@
 public class HomeWorkApp {
     public static void main(String[] args) {
-
         printThreeWords();
         chekSumSing();
         printColor();
@@ -12,7 +11,6 @@ public class HomeWorkApp {
         System.out.println("_Orange\n_Banana\n_Apple");
     }
 
-
     public static void chekSumSing() {
         int a = 5;
         int b = 6;
@@ -22,7 +20,6 @@ public class HomeWorkApp {
             System.out.println("Сумма отрицательная");
         }
     }
-
 
     public static void printColor() {
         int value = -5;
@@ -36,7 +33,6 @@ public class HomeWorkApp {
             System.out.println("Зеленый");
         }
     }
-
 
     public static void compareNumbers() {
         int a = 10;
