@@ -51,8 +51,7 @@ public class TicTacToe {
     private static boolean checkWin(char symb) {
         if (chekRowColumn(symb)) {
             return true;
-        }
-        else return chekDiag(symb);
+        } else return chekDiag(symb);
     }
 
     private static boolean chekDiag(char symb) {
