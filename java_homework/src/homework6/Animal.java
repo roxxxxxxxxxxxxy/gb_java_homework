@@ -4,7 +4,6 @@ public abstract class Animal {
     protected int runDistance;
     protected int swimDistance;
 
-
     public Animal(int runDistance, int swimDistance) {
         this.runDistance = runDistance;
         this.swimDistance = swimDistance;
