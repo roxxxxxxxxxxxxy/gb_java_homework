@@ -9,9 +9,9 @@ import java.util.Random;
 public class TicTacToe {
     static class MyWindow extends JFrame {
 
-        private static final String DOT_X = "X";
-        private static final String DOT_O = "O";
-        private static final JButton[][] cells = new JButton[3][3];
+        private final String DOT_X = "X";
+        private final String DOT_O = "O";
+        private final JButton[][] cells = new JButton[3][3];
 
         public MyWindow() {
             setSize(500, 500);
@@ -48,12 +48,6 @@ public class TicTacToe {
             setVisible(true);
         }
 
-        private static boolean checkWin(char symb) {
-            if (checkRowColumn(symb)) {
-                return true;
-            } else return chekDiag(symb);
-        }
-
         private JButton cell() {
             JButton button = new JButton();
 
@@ -61,14 +55,13 @@ public class TicTacToe {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    if(button.getActionCommand().length() == 0) {
+                    if (button.getText().length() == 0) {
+                        button.setText(DOT_X);
 
-                        button.setActionCommand("X");
-                        String temp = button.getActionCommand();
-                        if (checkWin(button.getActionCommand().charAt(0))) {
-                            System.out.println(button.getActionCommand() + "Победил");
+                        if (!checkTurn(button)) {
+                            compTurn();
                         }
-                        compTurn();
+
                     }
 
                 }
@@ -77,22 +70,57 @@ public class TicTacToe {
             return button;
         }
 
-        private static void compTurn() {
+        private boolean checkWin(char symb) {
+            if (checkRowColumn(symb)) {
+                return true;
+            } else return chekDiag(symb);
+        }
+
+        private void compTurn() {
             int x, y;
             Random random = new Random();
             do {
                 x = random.nextInt(3);
                 y = random.nextInt(3);
-            } while (!cells[x][y].getActionCommand().equals(""));
-            cells[x][y].setActionCommand(DOT_O);
+            } while (!cells[x][y].getText().equals(""));
+            cells[x][y].setText(DOT_O);
+
+            checkTurn(cells[x][y]);
         }
 
-        private static boolean chekDiag(char symb) {
+        private boolean checkTurn(JButton button) {
+            boolean isUserWin = checkWin(button.getText().charAt(0));
+
+            if (button.getText().length() > 0 && isUserWin) {
+                JOptionPane.showMessageDialog(this, "Победил: " + button.getText());
+                return true;
+            } else if (isCellsFull()) {
+                JOptionPane.showMessageDialog(this, "Ничья");
+                return true;
+            }
+
+            return false;
+        }
+
+        private boolean isCellsFull() {
+            int maxValue = 9;
+            int currentValue = 0;
+
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (cells[i][j].getText().length() > 0) currentValue++;
+                }
+            }
+
+            return currentValue == maxValue;
+        }
+
+        private boolean chekDiag(char symb) {
             int leftDiag = 0;
             int rightDiag = 0;
             for (int i = 0; i < 3; i++) {
-                leftDiag = (cells[i][i].getActionCommand().equals(symb)) ? leftDiag + 1 : 0;
-                rightDiag = (cells[i][cells.length - 1 - i].getActionCommand().charAt(0) == symb) ? rightDiag + 1 : 0;
+                leftDiag = (cells[i][i].getText().equals(Character.toString(symb))) ? leftDiag + 1 : 0;
+                rightDiag = (cells[i][cells.length - 1 - i].getText().equals(Character.toString(symb))) ? rightDiag + 1 : 0;
                 if (leftDiag == 3 || rightDiag == 3) {
                     return true;
                 }
@@ -100,14 +128,14 @@ public class TicTacToe {
             return false;
         }
 
-        private static boolean checkRowColumn(char symb) {
+        private boolean checkRowColumn(char symb) {
             int line = 0;
             int column = 0;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    line = (!cells[i][j].getActionCommand().equals("") && cells[i][j].getActionCommand().equals(symb)) ? line + 1 : 0;
+                    line = (cells[i][j].getText().equals(Character.toString(symb))) ? line + 1 : 0;
 
-                    column = (!cells[j][i].getActionCommand().equals("") && cells[j][i].getActionCommand().equals(symb)) ? column + 1 : 0;
+                    column = (cells[j][i].getText().equals(Character.toString(symb))) ? column + 1 : 0;
                     if (line == 3 || column == 3) {
                         return true;
                     }
@@ -119,7 +147,5 @@ public class TicTacToe {
         public static void main(String[] args) {
             new MyWindow();
         }
-
-
     }
 }
