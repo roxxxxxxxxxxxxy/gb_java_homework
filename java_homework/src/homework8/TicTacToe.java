@@ -61,11 +61,8 @@ public class TicTacToe {
                         if (!checkTurn(button)) {
                             compTurn();
                         }
-
                     }
-
                 }
-
             });
             return button;
         }
@@ -98,7 +95,6 @@ public class TicTacToe {
                 JOptionPane.showMessageDialog(this, "Ничья");
                 return true;
             }
-
             return false;
         }
 
@@ -111,7 +107,6 @@ public class TicTacToe {
                     if (cells[i][j].getText().length() > 0) currentValue++;
                 }
             }
-
             return currentValue == maxValue;
         }
 
