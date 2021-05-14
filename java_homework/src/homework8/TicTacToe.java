@@ -8,16 +8,16 @@ import java.util.Random;
 
 public class TicTacToe {
     static class MyWindow extends JFrame {
-
+        private static final int SIZE = 3;
         private final String DOT_X = "X";
         private final String DOT_O = "O";
-        private final JButton[][] cells = new JButton[3][3];
+        private final JButton[][] cells = new JButton[SIZE][SIZE];
 
         public MyWindow() {
             setSize(500, 500);
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             setLocationRelativeTo(null);
-            setLayout(new GridLayout(3, 3));
+            setLayout(new GridLayout(SIZE, SIZE));
             cells[0][0] = cell();
             add(cells[0][0]);
 
@@ -67,18 +67,32 @@ public class TicTacToe {
             return button;
         }
 
-        private boolean checkWin(char symb) {
-            if (checkRowColumn(symb)) {
+        public boolean checkWin(char symb) {
+            if (cells[0][0].getText().equals(Character.toString(symb)) && cells[0][1].getText().equals(Character.toString(symb)) && cells[0][2].getText().equals(Character.toString(symb)))
                 return true;
-            } else return chekDiag(symb);
+            if (cells[1][0].getText().equals(Character.toString(symb)) && cells[1][1].getText().equals(Character.toString(symb)) && cells[1][2].getText().equals(Character.toString(symb)))
+                return true;
+            if (cells[2][0].getText().equals(Character.toString(symb)) && cells[2][1].getText().equals(Character.toString(symb)) && cells[2][2].getText().equals(Character.toString(symb)))
+                return true;
+            if (cells[0][0].getText().equals(Character.toString(symb)) && cells[1][0].getText().equals(Character.toString(symb)) && cells[2][0].getText().equals(Character.toString(symb)))
+                return true;
+            if (cells[0][1].getText().equals(Character.toString(symb)) && cells[1][1].getText().equals(Character.toString(symb)) && cells[2][1].getText().equals(Character.toString(symb)))
+                return true;
+            if (cells[0][2].getText().equals(Character.toString(symb)) && cells[1][2].getText().equals(Character.toString(symb)) && cells[2][2].getText().equals(Character.toString(symb)))
+                return true;
+            if (cells[0][0].getText().equals(Character.toString(symb)) && cells[1][1].getText().equals(Character.toString(symb)) && cells[2][2].getText().equals(Character.toString(symb)))
+                return true;
+            if (cells[2][0].getText().equals(Character.toString(symb)) && cells[1][1].getText().equals(Character.toString(symb)) && cells[0][2].getText().equals(Character.toString(symb)))
+                return true;
+            return false;
         }
 
         private void compTurn() {
             int x, y;
             Random random = new Random();
             do {
-                x = random.nextInt(3);
-                y = random.nextInt(3);
+                x = random.nextInt(SIZE);
+                y = random.nextInt(SIZE);
             } while (!cells[x][y].getText().equals(""));
             cells[x][y].setText(DOT_O);
 
@@ -102,41 +116,12 @@ public class TicTacToe {
             int maxValue = 9;
             int currentValue = 0;
 
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
                     if (cells[i][j].getText().length() > 0) currentValue++;
                 }
             }
             return currentValue == maxValue;
-        }
-
-        private boolean chekDiag(char symb) {
-            int leftDiag = 0;
-            int rightDiag = 0;
-            for (int i = 0; i < 3; i++) {
-                leftDiag = (cells[i][i].getText().equals(Character.toString(symb))) ? leftDiag + 1 : 0;
-                rightDiag = (cells[i][cells.length - 1 - i].getText().equals(Character.toString(symb))) ? rightDiag + 1 : 0;
-                if (leftDiag == 3 || rightDiag == 3) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private boolean checkRowColumn(char symb) {
-            int line = 0;
-            int column = 0;
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    line = (cells[i][j].getText().equals(Character.toString(symb))) ? line + 1 : 0;
-
-                    column = (cells[j][i].getText().equals(Character.toString(symb))) ? column + 1 : 0;
-                    if (line == 3 || column == 3) {
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
 
         public static void main(String[] args) {
